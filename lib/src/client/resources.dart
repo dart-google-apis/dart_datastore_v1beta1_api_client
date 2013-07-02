@@ -15,7 +15,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<AllocateIdsResponse> allocateIds(AllocateIdsRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/allocateIds";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -32,16 +31,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new AllocateIdsResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new AllocateIdsResponse.fromJson(data));
   }
 
   /**
@@ -54,7 +50,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<BeginTransactionResponse> beginTransaction(BeginTransactionRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/beginTransaction";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -71,16 +66,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new BeginTransactionResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new BeginTransactionResponse.fromJson(data));
   }
 
   /**
@@ -93,7 +85,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<BlindWriteResponse> blindWrite(BlindWriteRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/blindWrite";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -110,16 +101,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new BlindWriteResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new BlindWriteResponse.fromJson(data));
   }
 
   /**
@@ -132,7 +120,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<CommitResponse> commit(CommitRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/commit";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -149,16 +136,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new CommitResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new CommitResponse.fromJson(data));
   }
 
   /**
@@ -171,7 +155,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<LookupResponse> lookup(LookupRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/lookup";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -188,16 +171,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new LookupResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new LookupResponse.fromJson(data));
   }
 
   /**
@@ -210,7 +190,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<RollbackResponse> rollback(RollbackRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/rollback";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -227,16 +206,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new RollbackResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new RollbackResponse.fromJson(data));
   }
 
   /**
@@ -249,7 +225,6 @@ class DatasetsResource_ extends Resource {
    * [optParams] - Additional query parameters
    */
   async.Future<RunQueryResponse> runQuery(RunQueryRequest request, core.String datasetId, {core.Map optParams}) {
-    var completer = new async.Completer();
     var url = "{datasetId}/runQuery";
     var urlParams = new core.Map();
     var queryParams = new core.Map();
@@ -266,16 +241,13 @@ class DatasetsResource_ extends Resource {
     }
 
     if (!paramErrors.isEmpty) {
-      completer.completeError(new core.ArgumentError(paramErrors.join(" / ")));
-      return completer.future;
+      throw new core.ArgumentError(paramErrors.join(" / "));
     }
 
     var response;
     response = _client.request(url, "POST", body: request.toString(), urlParams: urlParams, queryParams: queryParams);
-    response
-      .then((data) => completer.complete(new RunQueryResponse.fromJson(data)))
-      .catchError((e) { completer.completeError(e); return true; });
-    return completer.future;
+    return response
+      .then((data) => new RunQueryResponse.fromJson(data));
   }
 }
 

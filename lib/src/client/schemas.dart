@@ -523,7 +523,11 @@ class KeyPathElement {
   /** Create new KeyPathElement from JSON data */
   KeyPathElement.fromJson(core.Map json) {
     if (json.containsKey("id")) {
-      id = json["id"];
+      if(json["id"] is core.String){
+        id = core.int.parse(json["id"]);
+      }else{
+        id = json["id"];
+      }
     }
     if (json.containsKey("kind")) {
       kind = json["kind"];
@@ -1535,7 +1539,11 @@ The indexed property may be set to null. When indexed is true, stringValue is li
       indexed = json["indexed"];
     }
     if (json.containsKey("integerValue")) {
-      integerValue = json["integerValue"];
+      if(json["integerValue"] is core.String){
+        integerValue = core.int.parse(json["integerValue"]);
+      }else{
+        integerValue = json["integerValue"];
+      }
     }
     if (json.containsKey("keyValue")) {
       keyValue = new Key.fromJson(json["keyValue"]);
