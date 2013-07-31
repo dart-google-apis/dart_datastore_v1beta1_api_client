@@ -1,9 +1,11 @@
-part of datastore_v1beta1_api_client;
+part of datastore_v1beta1_api;
 
-class DatasetsResource_ extends Resource {
+class DatasetsResource_ {
 
-  DatasetsResource_(Client client) : super(client) {
-  }
+  final Client _client;
+
+  DatasetsResource_(Client client) :
+      _client = client;
 
   /**
    * Allocate IDs for incomplete keys (useful for referencing an entity before it is inserted).

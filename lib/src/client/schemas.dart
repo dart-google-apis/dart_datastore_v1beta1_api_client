@@ -1,4 +1,4 @@
-part of datastore_v1beta1_api_client;
+part of datastore_v1beta1_api;
 
 /** The request for AllocateIds. */
 class AllocateIdsRequest {
@@ -9,10 +9,7 @@ class AllocateIdsRequest {
   /** Create new AllocateIdsRequest from JSON data */
   AllocateIdsRequest.fromJson(core.Map json) {
     if (json.containsKey("keys")) {
-      keys = [];
-      json["keys"].forEach((item) {
-        keys.add(new Key.fromJson(item));
-      });
+      keys = json["keys"].map((keysItem) => new Key.fromJson(keysItem)).toList();
     }
   }
 
@@ -21,10 +18,7 @@ class AllocateIdsRequest {
     var output = new core.Map();
 
     if (keys != null) {
-      output["keys"] = new core.List();
-      keys.forEach((item) {
-        output["keys"].add(item.toJson());
-      });
+      output["keys"] = keys.map((keysItem) => keysItem.toJson()).toList();
     }
 
     return output;
@@ -47,10 +41,7 @@ class AllocateIdsResponse {
   /** Create new AllocateIdsResponse from JSON data */
   AllocateIdsResponse.fromJson(core.Map json) {
     if (json.containsKey("keys")) {
-      keys = [];
-      json["keys"].forEach((item) {
-        keys.add(new Key.fromJson(item));
-      });
+      keys = json["keys"].map((keysItem) => new Key.fromJson(keysItem)).toList();
     }
     if (json.containsKey("kind")) {
       kind = json["kind"];
@@ -62,10 +53,7 @@ class AllocateIdsResponse {
     var output = new core.Map();
 
     if (keys != null) {
-      output["keys"] = new core.List();
-      keys.forEach((item) {
-        output["keys"].add(item.toJson());
-      });
+      output["keys"] = keys.map((keysItem) => keysItem.toJson()).toList();
     }
     if (kind != null) {
       output["kind"] = kind;
@@ -301,10 +289,7 @@ class CompositeFilter {
   /** Create new CompositeFilter from JSON data */
   CompositeFilter.fromJson(core.Map json) {
     if (json.containsKey("filters")) {
-      filters = [];
-      json["filters"].forEach((item) {
-        filters.add(new Filter.fromJson(item));
-      });
+      filters = json["filters"].map((filtersItem) => new Filter.fromJson(filtersItem)).toList();
     }
     if (json.containsKey("operator")) {
       operator = json["operator"];
@@ -316,10 +301,7 @@ class CompositeFilter {
     var output = new core.Map();
 
     if (filters != null) {
-      output["filters"] = new core.List();
-      filters.forEach((item) {
-        output["filters"].add(item.toJson());
-      });
+      output["filters"] = filters.map((filtersItem) => filtersItem.toJson()).toList();
     }
     if (operator != null) {
       output["operator"] = operator;
@@ -344,7 +326,7 @@ An entity must have a key, unless otherwise documented (for example, an entity i
   Key key;
 
   /** The entity's properties. */
-  EntityProperties properties;
+  core.Map<core.String, Property> properties;
 
   /** Create new Entity from JSON data */
   Entity.fromJson(core.Map json) {
@@ -352,7 +334,7 @@ An entity must have a key, unless otherwise documented (for example, an entity i
       key = new Key.fromJson(json["key"]);
     }
     if (json.containsKey("properties")) {
-      properties = new EntityProperties.fromJson(json["properties"]);
+      properties = _mapMap(json["properties"], (propertiesItem) => new Property.fromJson(propertiesItem));
     }
   }
 
@@ -364,33 +346,13 @@ An entity must have a key, unless otherwise documented (for example, an entity i
       output["key"] = key.toJson();
     }
     if (properties != null) {
-      output["properties"] = properties.toJson();
+      output["properties"] = _mapMap(properties, (propertiesItem) => propertiesItem.toJson());
     }
 
     return output;
   }
 
   /** Return String representation of Entity */
-  core.String toString() => JSON.stringify(this.toJson());
-
-}
-
-/** The entity's properties. */
-class EntityProperties {
-
-  /** Create new EntityProperties from JSON data */
-  EntityProperties.fromJson(core.Map json) {
-  }
-
-  /** Create JSON Object for EntityProperties */
-  core.Map toJson() {
-    var output = new core.Map();
-
-
-    return output;
-  }
-
-  /** Return String representation of EntityProperties */
   core.String toString() => JSON.stringify(this.toJson());
 
 }
@@ -477,10 +439,7 @@ class Key {
       partitionId = new PartitionId.fromJson(json["partitionId"]);
     }
     if (json.containsKey("path")) {
-      path = [];
-      json["path"].forEach((item) {
-        path.add(new KeyPathElement.fromJson(item));
-      });
+      path = json["path"].map((pathItem) => new KeyPathElement.fromJson(pathItem)).toList();
     }
   }
 
@@ -492,10 +451,7 @@ class Key {
       output["partitionId"] = partitionId.toJson();
     }
     if (path != null) {
-      output["path"] = new core.List();
-      path.forEach((item) {
-        output["path"].add(item.toJson());
-      });
+      output["path"] = path.map((pathItem) => pathItem.toJson()).toList();
     }
 
     return output;
@@ -523,11 +479,7 @@ class KeyPathElement {
   /** Create new KeyPathElement from JSON data */
   KeyPathElement.fromJson(core.Map json) {
     if (json.containsKey("id")) {
-      if(json["id"] is core.String){
-        id = core.int.parse(json["id"]);
-      }else{
-        id = json["id"];
-      }
+      id = (json["id"] is core.String) ? core.int.parse(json["id"]) : json["id"];
     }
     if (json.containsKey("kind")) {
       kind = json["kind"];
@@ -600,10 +552,7 @@ class LookupRequest {
   /** Create new LookupRequest from JSON data */
   LookupRequest.fromJson(core.Map json) {
     if (json.containsKey("keys")) {
-      keys = [];
-      json["keys"].forEach((item) {
-        keys.add(new Key.fromJson(item));
-      });
+      keys = json["keys"].map((keysItem) => new Key.fromJson(keysItem)).toList();
     }
     if (json.containsKey("readOptions")) {
       readOptions = new ReadOptions.fromJson(json["readOptions"]);
@@ -615,10 +564,7 @@ class LookupRequest {
     var output = new core.Map();
 
     if (keys != null) {
-      output["keys"] = new core.List();
-      keys.forEach((item) {
-        output["keys"].add(item.toJson());
-      });
+      output["keys"] = keys.map((keysItem) => keysItem.toJson()).toList();
     }
     if (readOptions != null) {
       output["readOptions"] = readOptions.toJson();
@@ -650,25 +596,16 @@ class LookupResponse {
   /** Create new LookupResponse from JSON data */
   LookupResponse.fromJson(core.Map json) {
     if (json.containsKey("deferred")) {
-      deferred = [];
-      json["deferred"].forEach((item) {
-        deferred.add(new Key.fromJson(item));
-      });
+      deferred = json["deferred"].map((deferredItem) => new Key.fromJson(deferredItem)).toList();
     }
     if (json.containsKey("found")) {
-      found = [];
-      json["found"].forEach((item) {
-        found.add(new EntityResult.fromJson(item));
-      });
+      found = json["found"].map((foundItem) => new EntityResult.fromJson(foundItem)).toList();
     }
     if (json.containsKey("kind")) {
       kind = json["kind"];
     }
     if (json.containsKey("missing")) {
-      missing = [];
-      json["missing"].forEach((item) {
-        missing.add(new EntityResult.fromJson(item));
-      });
+      missing = json["missing"].map((missingItem) => new EntityResult.fromJson(missingItem)).toList();
     }
   }
 
@@ -677,25 +614,16 @@ class LookupResponse {
     var output = new core.Map();
 
     if (deferred != null) {
-      output["deferred"] = new core.List();
-      deferred.forEach((item) {
-        output["deferred"].add(item.toJson());
-      });
+      output["deferred"] = deferred.map((deferredItem) => deferredItem.toJson()).toList();
     }
     if (found != null) {
-      output["found"] = new core.List();
-      found.forEach((item) {
-        output["found"].add(item.toJson());
-      });
+      output["found"] = found.map((foundItem) => foundItem.toJson()).toList();
     }
     if (kind != null) {
       output["kind"] = kind;
     }
     if (missing != null) {
-      output["missing"] = new core.List();
-      missing.forEach((item) {
-        output["missing"].add(item.toJson());
-      });
+      output["missing"] = missing.map((missingItem) => missingItem.toJson()).toList();
     }
 
     return output;
@@ -734,37 +662,22 @@ class Mutation {
   /** Create new Mutation from JSON data */
   Mutation.fromJson(core.Map json) {
     if (json.containsKey("delete")) {
-      delete = [];
-      json["delete"].forEach((item) {
-        delete.add(new Key.fromJson(item));
-      });
+      delete = json["delete"].map((deleteItem) => new Key.fromJson(deleteItem)).toList();
     }
     if (json.containsKey("force")) {
       force = json["force"];
     }
     if (json.containsKey("insert")) {
-      insert = [];
-      json["insert"].forEach((item) {
-        insert.add(new Entity.fromJson(item));
-      });
+      insert = json["insert"].map((insertItem) => new Entity.fromJson(insertItem)).toList();
     }
     if (json.containsKey("insertAutoId")) {
-      insertAutoId = [];
-      json["insertAutoId"].forEach((item) {
-        insertAutoId.add(new Entity.fromJson(item));
-      });
+      insertAutoId = json["insertAutoId"].map((insertAutoIdItem) => new Entity.fromJson(insertAutoIdItem)).toList();
     }
     if (json.containsKey("update")) {
-      update = [];
-      json["update"].forEach((item) {
-        update.add(new Entity.fromJson(item));
-      });
+      update = json["update"].map((updateItem) => new Entity.fromJson(updateItem)).toList();
     }
     if (json.containsKey("upsert")) {
-      upsert = [];
-      json["upsert"].forEach((item) {
-        upsert.add(new Entity.fromJson(item));
-      });
+      upsert = json["upsert"].map((upsertItem) => new Entity.fromJson(upsertItem)).toList();
     }
   }
 
@@ -773,37 +686,22 @@ class Mutation {
     var output = new core.Map();
 
     if (delete != null) {
-      output["delete"] = new core.List();
-      delete.forEach((item) {
-        output["delete"].add(item.toJson());
-      });
+      output["delete"] = delete.map((deleteItem) => deleteItem.toJson()).toList();
     }
     if (force != null) {
       output["force"] = force;
     }
     if (insert != null) {
-      output["insert"] = new core.List();
-      insert.forEach((item) {
-        output["insert"].add(item.toJson());
-      });
+      output["insert"] = insert.map((insertItem) => insertItem.toJson()).toList();
     }
     if (insertAutoId != null) {
-      output["insertAutoId"] = new core.List();
-      insertAutoId.forEach((item) {
-        output["insertAutoId"].add(item.toJson());
-      });
+      output["insertAutoId"] = insertAutoId.map((insertAutoIdItem) => insertAutoIdItem.toJson()).toList();
     }
     if (update != null) {
-      output["update"] = new core.List();
-      update.forEach((item) {
-        output["update"].add(item.toJson());
-      });
+      output["update"] = update.map((updateItem) => updateItem.toJson()).toList();
     }
     if (upsert != null) {
-      output["upsert"] = new core.List();
-      upsert.forEach((item) {
-        output["upsert"].add(item.toJson());
-      });
+      output["upsert"] = upsert.map((upsertItem) => upsertItem.toJson()).toList();
     }
 
     return output;
@@ -829,10 +727,7 @@ class MutationResult {
       indexUpdates = json["indexUpdates"];
     }
     if (json.containsKey("insertAutoIdKeys")) {
-      insertAutoIdKeys = [];
-      json["insertAutoIdKeys"].forEach((item) {
-        insertAutoIdKeys.add(new Key.fromJson(item));
-      });
+      insertAutoIdKeys = json["insertAutoIdKeys"].map((insertAutoIdKeysItem) => new Key.fromJson(insertAutoIdKeysItem)).toList();
     }
   }
 
@@ -844,10 +739,7 @@ class MutationResult {
       output["indexUpdates"] = indexUpdates;
     }
     if (insertAutoIdKeys != null) {
-      output["insertAutoIdKeys"] = new core.List();
-      insertAutoIdKeys.forEach((item) {
-        output["insertAutoIdKeys"].add(item.toJson());
-      });
+      output["insertAutoIdKeys"] = insertAutoIdKeys.map((insertAutoIdKeysItem) => insertAutoIdKeysItem.toJson()).toList();
     }
 
     return output;
@@ -917,10 +809,7 @@ class Property {
       multi = json["multi"];
     }
     if (json.containsKey("values")) {
-      values = [];
-      json["values"].forEach((item) {
-        values.add(new Value.fromJson(item));
-      });
+      values = json["values"].map((valuesItem) => new Value.fromJson(valuesItem)).toList();
     }
   }
 
@@ -932,10 +821,7 @@ class Property {
       output["multi"] = multi;
     }
     if (values != null) {
-      output["values"] = new core.List();
-      values.forEach((item) {
-        output["values"].add(item.toJson());
-      });
+      output["values"] = values.map((valuesItem) => valuesItem.toJson()).toList();
     }
 
     return output;
@@ -1137,16 +1023,10 @@ class Query {
       filter = new Filter.fromJson(json["filter"]);
     }
     if (json.containsKey("groupBy")) {
-      groupBy = [];
-      json["groupBy"].forEach((item) {
-        groupBy.add(new PropertyReference.fromJson(item));
-      });
+      groupBy = json["groupBy"].map((groupByItem) => new PropertyReference.fromJson(groupByItem)).toList();
     }
     if (json.containsKey("kinds")) {
-      kinds = [];
-      json["kinds"].forEach((item) {
-        kinds.add(new KindExpression.fromJson(item));
-      });
+      kinds = json["kinds"].map((kindsItem) => new KindExpression.fromJson(kindsItem)).toList();
     }
     if (json.containsKey("limit")) {
       limit = json["limit"];
@@ -1155,16 +1035,10 @@ class Query {
       offset = json["offset"];
     }
     if (json.containsKey("order")) {
-      order = [];
-      json["order"].forEach((item) {
-        order.add(new PropertyOrder.fromJson(item));
-      });
+      order = json["order"].map((orderItem) => new PropertyOrder.fromJson(orderItem)).toList();
     }
     if (json.containsKey("projection")) {
-      projection = [];
-      json["projection"].forEach((item) {
-        projection.add(new PropertyExpression.fromJson(item));
-      });
+      projection = json["projection"].map((projectionItem) => new PropertyExpression.fromJson(projectionItem)).toList();
     }
     if (json.containsKey("startCursor")) {
       startCursor = json["startCursor"];
@@ -1182,16 +1056,10 @@ class Query {
       output["filter"] = filter.toJson();
     }
     if (groupBy != null) {
-      output["groupBy"] = new core.List();
-      groupBy.forEach((item) {
-        output["groupBy"].add(item.toJson());
-      });
+      output["groupBy"] = groupBy.map((groupByItem) => groupByItem.toJson()).toList();
     }
     if (kinds != null) {
-      output["kinds"] = new core.List();
-      kinds.forEach((item) {
-        output["kinds"].add(item.toJson());
-      });
+      output["kinds"] = kinds.map((kindsItem) => kindsItem.toJson()).toList();
     }
     if (limit != null) {
       output["limit"] = limit;
@@ -1200,16 +1068,10 @@ class Query {
       output["offset"] = offset;
     }
     if (order != null) {
-      output["order"] = new core.List();
-      order.forEach((item) {
-        output["order"].add(item.toJson());
-      });
+      output["order"] = order.map((orderItem) => orderItem.toJson()).toList();
     }
     if (projection != null) {
-      output["projection"] = new core.List();
-      projection.forEach((item) {
-        output["projection"].add(item.toJson());
-      });
+      output["projection"] = projection.map((projectionItem) => projectionItem.toJson()).toList();
     }
     if (startCursor != null) {
       output["startCursor"] = startCursor;
@@ -1250,10 +1112,7 @@ class QueryResultBatch {
       entityResultType = json["entityResultType"];
     }
     if (json.containsKey("entityResults")) {
-      entityResults = [];
-      json["entityResults"].forEach((item) {
-        entityResults.add(new EntityResult.fromJson(item));
-      });
+      entityResults = json["entityResults"].map((entityResultsItem) => new EntityResult.fromJson(entityResultsItem)).toList();
     }
     if (json.containsKey("moreResults")) {
       moreResults = json["moreResults"];
@@ -1274,10 +1133,7 @@ class QueryResultBatch {
       output["entityResultType"] = entityResultType;
     }
     if (entityResults != null) {
-      output["entityResults"] = new core.List();
-      entityResults.forEach((item) {
-        output["entityResults"].add(item.toJson());
-      });
+      output["entityResults"] = entityResults.map((entityResultsItem) => entityResultsItem.toJson()).toList();
     }
     if (moreResults != null) {
       output["moreResults"] = moreResults;
@@ -1539,11 +1395,7 @@ The indexed property may be set to null. When indexed is true, stringValue is li
       indexed = json["indexed"];
     }
     if (json.containsKey("integerValue")) {
-      if(json["integerValue"] is core.String){
-        integerValue = core.int.parse(json["integerValue"]);
-      }else{
-        integerValue = json["integerValue"];
-      }
+      integerValue = (json["integerValue"] is core.String) ? core.int.parse(json["integerValue"]) : json["integerValue"];
     }
     if (json.containsKey("keyValue")) {
       keyValue = new Key.fromJson(json["keyValue"]);
@@ -1602,3 +1454,16 @@ The indexed property may be set to null. When indexed is true, stringValue is li
 
 }
 
+core.Map _mapMap(core.Map source, [core.Object convert(core.Object source) = null]) {
+  assert(source != null);
+  var result = new dart_collection.LinkedHashMap();
+  source.forEach((core.String key, value) {
+    assert(key != null);
+    if(convert == null) {
+      result[key] = value;
+    } else {
+      result[key] = convert(value);
+    }
+  });
+  return result;
+}

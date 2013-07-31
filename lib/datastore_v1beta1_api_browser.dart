@@ -1,14 +1,17 @@
-library datastore_v1beta1_api_browser;
+library datastore_v1beta1_api.browser;
 
-import "datastore_v1beta1_api_client.dart";
-export "datastore_v1beta1_api_client.dart";
-
-import "dart:core" as core;
-import "dart:html" as html;
-import "dart:async" as async;
-import "dart:json" as JSON;
-import "package:js/js.dart" as js;
 import "package:google_oauth2_client/google_oauth2_browser.dart" as oauth;
 
-part "src/browser/browser_client.dart";
-part "src/browser/datastore.dart";
+import 'package:google_datastore_v1beta1_api/src/cloud_api_browser.dart';
+import "package:google_datastore_v1beta1_api/datastore_v1beta1_api_client.dart";
+
+/** API for accessing Google Cloud Datastore. */
+class Datastore extends Client with BrowserClient {
+
+  /** OAuth Scope2: View your email address */
+  static const String USERINFO_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
+
+  final oauth.OAuth2 auth;
+
+  Datastore([oauth.OAuth2 this.auth]);
+}

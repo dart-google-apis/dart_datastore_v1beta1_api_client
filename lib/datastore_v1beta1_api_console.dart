@@ -1,14 +1,18 @@
-library datastore_v1beta1_api_console;
+library datastore_v1beta1_api.console;
 
-import "datastore_v1beta1_api_client.dart";
-export "datastore_v1beta1_api_client.dart";
-
-import "dart:core" as core;
-import "dart:io" as io;
-import "dart:async" as async;
-import "dart:json" as JSON;
-import "package:http/http.dart" as http;
 import "package:google_oauth2_client/google_oauth2_console.dart" as oauth2;
 
-part "src/console/console_client.dart";
-part "src/console/datastore.dart";
+import 'package:google_datastore_v1beta1_api/src/cloud_api_console.dart';
+
+import "package:google_datastore_v1beta1_api/datastore_v1beta1_api_client.dart";
+
+/** API for accessing Google Cloud Datastore. */
+class Datastore extends Client with ConsoleClient {
+
+  /** OAuth Scope2: View your email address */
+  static const String USERINFO_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
+
+  final oauth2.OAuth2Console auth;
+
+  Datastore([oauth2.OAuth2Console this.auth]);
+}
