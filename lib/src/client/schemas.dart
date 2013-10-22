@@ -1,6 +1,5 @@
 part of datastore_v1beta1_api;
 
-/** The request for AllocateIds. */
 class AllocateIdsRequest {
 
   /** A list of keys with incomplete key paths to allocate IDs for. No key may be reserved/read-only. */
@@ -25,26 +24,24 @@ class AllocateIdsRequest {
   }
 
   /** Return String representation of AllocateIdsRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for AllocateIds. */
 class AllocateIdsResponse {
+
+  ResponseHeader header;
 
   /** The keys specified in the request (in the same order), each with its key path completed with a newly allocated ID. */
   core.List<Key> keys;
 
-  /** The kind, fixed to "datastore#allocateIdsResponse". */
-  core.String kind;
-
   /** Create new AllocateIdsResponse from JSON data */
   AllocateIdsResponse.fromJson(core.Map json) {
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
+    }
     if (json.containsKey("keys")) {
       keys = json["keys"].map((keysItem) => new Key.fromJson(keysItem)).toList();
-    }
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
     }
   }
 
@@ -52,22 +49,21 @@ class AllocateIdsResponse {
   core.Map toJson() {
     var output = new core.Map();
 
+    if (header != null) {
+      output["header"] = header.toJson();
+    }
     if (keys != null) {
       output["keys"] = keys.map((keysItem) => keysItem.toJson()).toList();
-    }
-    if (kind != null) {
-      output["kind"] = kind;
     }
 
     return output;
   }
 
   /** Return String representation of AllocateIdsResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for BeginTransaction. */
 class BeginTransactionRequest {
 
   /** The transaction isolation level. Either snapshot or serializable. The default isolation level is snapshot isolation, which means that another transaction may not concurrently modify the data that is modified by this transaction. Optionally, a transaction can request to be made serializable which means that another transaction cannot concurrently modify the data that is read or modified by this transaction. */
@@ -92,23 +88,21 @@ class BeginTransactionRequest {
   }
 
   /** Return String representation of BeginTransactionRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for BeginTransaction. */
 class BeginTransactionResponse {
 
-  /** The kind, fixed to "datastore#beginTransactionResponse". */
-  core.String kind;
+  ResponseHeader header;
 
   /** The transaction identifier (always present). */
   core.String transaction;
 
   /** Create new BeginTransactionResponse from JSON data */
   BeginTransactionResponse.fromJson(core.Map json) {
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
     if (json.containsKey("transaction")) {
       transaction = json["transaction"];
@@ -119,8 +113,8 @@ class BeginTransactionResponse {
   core.Map toJson() {
     var output = new core.Map();
 
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
     if (transaction != null) {
       output["transaction"] = transaction;
@@ -130,11 +124,10 @@ class BeginTransactionResponse {
   }
 
   /** Return String representation of BeginTransactionResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for BlindWrite. */
 class BlindWriteRequest {
 
   /** The mutation to perform. */
@@ -159,23 +152,21 @@ class BlindWriteRequest {
   }
 
   /** Return String representation of BlindWriteRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for BlindWrite. */
 class BlindWriteResponse {
 
-  /** The kind, fixed to "datastore#blindWriteResponse". */
-  core.String kind;
+  ResponseHeader header;
 
-  /** The result of performing the mutation. */
+  /** The result of performing the mutation (always present). */
   MutationResult mutationResult;
 
   /** Create new BlindWriteResponse from JSON data */
   BlindWriteResponse.fromJson(core.Map json) {
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
     if (json.containsKey("mutationResult")) {
       mutationResult = new MutationResult.fromJson(json["mutationResult"]);
@@ -186,8 +177,8 @@ class BlindWriteResponse {
   core.Map toJson() {
     var output = new core.Map();
 
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
     if (mutationResult != null) {
       output["mutationResult"] = mutationResult.toJson();
@@ -197,17 +188,16 @@ class BlindWriteResponse {
   }
 
   /** Return String representation of BlindWriteResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for Commit. */
 class CommitRequest {
 
-  /** The mutation to perform as part of this transaction. Optional. */
+  /** The mutation to perform. Optional. */
   Mutation mutation;
 
-  /** The transaction identifier, returned by a call to beginTransaction. */
+  /** The transaction identifier, returned by a call to beginTransaction. Must be set when mode is TRANSACTIONAL. */
   core.String transaction;
 
   /** Create new CommitRequest from JSON data */
@@ -235,23 +225,21 @@ class CommitRequest {
   }
 
   /** Return String representation of CommitRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for Commit. */
 class CommitResponse {
 
-  /** The kind, fixed to "datastore#commitResponse". */
-  core.String kind;
+  ResponseHeader header;
 
   /** The result of performing the mutation (if any). */
   MutationResult mutationResult;
 
   /** Create new CommitResponse from JSON data */
   CommitResponse.fromJson(core.Map json) {
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
     if (json.containsKey("mutationResult")) {
       mutationResult = new MutationResult.fromJson(json["mutationResult"]);
@@ -262,8 +250,8 @@ class CommitResponse {
   core.Map toJson() {
     var output = new core.Map();
 
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
     if (mutationResult != null) {
       output["mutationResult"] = mutationResult.toJson();
@@ -273,11 +261,10 @@ class CommitResponse {
   }
 
   /** Return String representation of CommitResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A filter that merges the multiple other filters using the given operation. */
 class CompositeFilter {
 
   /** The list of filters to combine. Must contain at least one filter. */
@@ -311,13 +298,10 @@ class CompositeFilter {
   }
 
   /** Return String representation of CompositeFilter */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** An entity.
-
-An entity is limited to 1 megabyte when stored. That *roughly* corresponds to a limit of 1 megabyte for the serialized form of this message. */
 class Entity {
 
   /** The entity's key.
@@ -353,11 +337,10 @@ An entity must have a key, unless otherwise documented (for example, an entity i
   }
 
   /** Return String representation of Entity */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The result of fetching an entity from the datastore. */
 class EntityResult {
 
   /** The resulting entity. */
@@ -382,11 +365,10 @@ class EntityResult {
   }
 
   /** Return String representation of EntityResult */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A holder for any type of filter. Exactly one field should be specified. */
 class Filter {
 
   /** A composite filter. */
@@ -420,14 +402,111 @@ class Filter {
   }
 
   /** Return String representation of Filter */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A unique identifier for an entity. If a key's partition id or any of its path kinds or names are reserved/read-only, the key is reserved/read-only. A reserved/read-only key is forbidden in certain documented contexts. */
+class GqlQuery {
+
+  /** When false, the query string must not contain a literal. */
+  core.bool allowLiteral;
+
+  /** A named argument must set field GqlQueryArg.name. No two named arguments may have the same name. For each non-reserved named binding site in the query string, there must be a named argument with that name, but not necessarily the inverse. */
+  core.List<GqlQueryArg> nameArgs;
+
+  /** Numbered binding site @1 references the first numbered argument, effectively using 1-based indexing, rather than the usual 0. A numbered argument must NOT set field GqlQueryArg.name. For each binding site numbered i in query_string, there must be an ith numbered argument. The inverse must also be true. */
+  core.List<GqlQueryArg> numberArgs;
+
+  core.String queryString;
+
+  /** Create new GqlQuery from JSON data */
+  GqlQuery.fromJson(core.Map json) {
+    if (json.containsKey("allowLiteral")) {
+      allowLiteral = json["allowLiteral"];
+    }
+    if (json.containsKey("nameArgs")) {
+      nameArgs = json["nameArgs"].map((nameArgsItem) => new GqlQueryArg.fromJson(nameArgsItem)).toList();
+    }
+    if (json.containsKey("numberArgs")) {
+      numberArgs = json["numberArgs"].map((numberArgsItem) => new GqlQueryArg.fromJson(numberArgsItem)).toList();
+    }
+    if (json.containsKey("queryString")) {
+      queryString = json["queryString"];
+    }
+  }
+
+  /** Create JSON Object for GqlQuery */
+  core.Map toJson() {
+    var output = new core.Map();
+
+    if (allowLiteral != null) {
+      output["allowLiteral"] = allowLiteral;
+    }
+    if (nameArgs != null) {
+      output["nameArgs"] = nameArgs.map((nameArgsItem) => nameArgsItem.toJson()).toList();
+    }
+    if (numberArgs != null) {
+      output["numberArgs"] = numberArgs.map((numberArgsItem) => numberArgsItem.toJson()).toList();
+    }
+    if (queryString != null) {
+      output["queryString"] = queryString;
+    }
+
+    return output;
+  }
+
+  /** Return String representation of GqlQuery */
+  core.String toString() => JSON.encode(this.toJson());
+
+}
+
+class GqlQueryArg {
+
+  core.String cursor;
+
+  /** Must match regex "[A-Za-z_$][A-Za-z_$0-9]*". Must not match regex "__.*__". Must not be "". */
+  core.String name;
+
+  Value value;
+
+  /** Create new GqlQueryArg from JSON data */
+  GqlQueryArg.fromJson(core.Map json) {
+    if (json.containsKey("cursor")) {
+      cursor = json["cursor"];
+    }
+    if (json.containsKey("name")) {
+      name = json["name"];
+    }
+    if (json.containsKey("value")) {
+      value = new Value.fromJson(json["value"]);
+    }
+  }
+
+  /** Create JSON Object for GqlQueryArg */
+  core.Map toJson() {
+    var output = new core.Map();
+
+    if (cursor != null) {
+      output["cursor"] = cursor;
+    }
+    if (name != null) {
+      output["name"] = name;
+    }
+    if (value != null) {
+      output["value"] = value.toJson();
+    }
+
+    return output;
+  }
+
+  /** Return String representation of GqlQueryArg */
+  core.String toString() => JSON.encode(this.toJson());
+
+}
+
 class Key {
 
-  /** Entities are partitioned into subsets, identified by a dataset (usually implicitly specified by the project) and namespace ID. Queries are scoped to a single partition. */
+  /** Entities are partitioned into subsets, currently identified by a dataset (usually implicitly specified by the project) and namespace ID. Queries are scoped to a single partition. */
   PartitionId partitionId;
 
   /** The entity path. An entity path consists of one or more elements composed of a kind and a string or numerical identifier, which identify entities. The first element identifies a root entity, the second element identifies a child of the root entity, the third element a child of the second entity, and so forth. The entities identified by all prefixes of the path are called the element's ancestors. An entity path is always fully complete: ALL of the entity's ancestors are required to be in the path along with the entity identifier itself. The only exception is that in some documented cases, the identifier in the last path element (for the entity) itself may be omitted. A path can never be empty. */
@@ -458,7 +537,7 @@ class Key {
   }
 
   /** Return String representation of Key */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
@@ -507,11 +586,10 @@ class KeyPathElement {
   }
 
   /** Return String representation of KeyPathElement */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A representation of a kind. */
 class KindExpression {
 
   /** The name of the kind. */
@@ -536,11 +614,10 @@ class KindExpression {
   }
 
   /** Return String representation of KindExpression */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for Lookup. */
 class LookupRequest {
 
   /** Keys of entities to look up from the datastore. */
@@ -574,11 +651,10 @@ class LookupRequest {
   }
 
   /** Return String representation of LookupRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for Lookup. */
 class LookupResponse {
 
   /** A list of keys that were not looked up due to resource constraints. */
@@ -587,8 +663,7 @@ class LookupResponse {
   /** Entities found. */
   core.List<EntityResult> found;
 
-  /** The kind, fixed to "datastore#lookupResponse". */
-  core.String kind;
+  ResponseHeader header;
 
   /** Entities not found, with only the key populated. */
   core.List<EntityResult> missing;
@@ -601,8 +676,8 @@ class LookupResponse {
     if (json.containsKey("found")) {
       found = json["found"].map((foundItem) => new EntityResult.fromJson(foundItem)).toList();
     }
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
     if (json.containsKey("missing")) {
       missing = json["missing"].map((missingItem) => new EntityResult.fromJson(missingItem)).toList();
@@ -619,8 +694,8 @@ class LookupResponse {
     if (found != null) {
       output["found"] = found.map((foundItem) => foundItem.toJson()).toList();
     }
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
     if (missing != null) {
       output["missing"] = missing.map((missingItem) => missingItem.toJson()).toList();
@@ -630,15 +705,10 @@ class LookupResponse {
   }
 
   /** Return String representation of LookupResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A set of changes to apply.
-
-No entity in this message may have a reserved property name, not even a property in an entity in a value.
-
-If entities with duplicate keys are present, an arbitrary choice will be made as to which is written. */
 class Mutation {
 
   /** Keys of entities to delete. Each key must have a complete key path and must not be reserved/read-only. */
@@ -708,11 +778,10 @@ class Mutation {
   }
 
   /** Return String representation of Mutation */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The result of applying a mutation. */
 class MutationResult {
 
   /** Number of index writes. */
@@ -746,17 +815,10 @@ class MutationResult {
   }
 
   /** Return String representation of MutationResult */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** An identifier for a particular subset of entities.
-
-Entities are partitioned into various subsets, each used by different datasets and different namespaces within a dataset and so forth.
-
-All input partition IDs are normalized before use. A partition ID is normalized as follows: If the partition ID is unset, replace it with an empty partition ID. If the partition ID has no dataset ID, assign it the context dataset ID.
-
-Partition dimension: A dimension may be unset. A dimension's value must never contain "!". A dimension's value must never be "". If the value of any dimension matches regex "__.*__", the partition is reserved/read-only. A reserved/read-only partition ID is forbidden in certain documented contexts. */
 class PartitionId {
 
   /** The dataset ID. */
@@ -790,17 +852,16 @@ class PartitionId {
   }
 
   /** Return String representation of PartitionId */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** An entity property. */
 class Property {
 
   /** If this property contains a list of values. Input values may explicitly set multi to false, but otherwise false is always represented by omitting multi. */
   core.bool multi;
 
-  /** The value(s) of the property. When multi is false there is always exactly one value. When multi is true there is always one or more values. Each value can have only one value property populated. For example, you cannot have a values list of { values: [ { integerValue: 22, stringValue: "a" } ] }, but you can have { multi: true, values: [ { integerValue: 22 }, { stringValue: "a" } ] }. */
+  /** The value(s) of the property. When multi is false there is always exactly one value. When multi is true there are always one or more values. Each value can have only one value property populated. For example, you cannot have a values list of { values: [ { integerValue: 22, stringValue: "a" } ] }, but you can have { multi: true, values: [ { integerValue: 22 }, { stringValue: "a" } ] }. */
   core.List<Value> values;
 
   /** Create new Property from JSON data */
@@ -828,11 +889,10 @@ class Property {
   }
 
   /** Return String representation of Property */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A representation of a property in a projection. */
 class PropertyExpression {
 
   /** The aggregation function to apply to the property. Optional. Can only be used when grouping by at least one property. Must then be set on all properties in the projection that are not being grouped by. Aggregation functions: first selects the first result as determined by the query's order. */
@@ -866,11 +926,10 @@ class PropertyExpression {
   }
 
   /** Return String representation of PropertyExpression */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A filter on a specific property. */
 class PropertyFilter {
 
   /** The operator to filter by. One of lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual, equal, or hasAncestor. */
@@ -913,11 +972,10 @@ class PropertyFilter {
   }
 
   /** Return String representation of PropertyFilter */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The desired order for a specific property. */
 class PropertyOrder {
 
   /** The direction to order by. One of ascending or descending. Optional, defaults to ascending. */
@@ -951,11 +1009,10 @@ class PropertyOrder {
   }
 
   /** Return String representation of PropertyOrder */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A reference to a property relative to the kind expressions. */
 class PropertyReference {
 
   /** The name of the property. */
@@ -980,11 +1037,10 @@ class PropertyReference {
   }
 
   /** Return String representation of PropertyReference */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A query. */
 class Query {
 
   /** An ending point for the query results. Optional. Query cursors are returned in query result batches. */
@@ -1081,11 +1137,10 @@ class Query {
   }
 
   /** Return String representation of Query */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A batch of results produced by a query. */
 class QueryResultBatch {
 
   /** A cursor that points to the position after the last result in the batch. May be absent. */
@@ -1146,11 +1201,10 @@ class QueryResultBatch {
   }
 
   /** Return String representation of QueryResultBatch */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** Options shared by read requests. */
 class ReadOptions {
 
   /** The read consistency to use. One of default, strong, or eventual. Cannot be set when transaction is set. Lookup and ancestor queries default to strong, global queries default to eventual and cannot be set to strong. Optional. Default is default. */
@@ -1184,11 +1238,38 @@ class ReadOptions {
   }
 
   /** Return String representation of ReadOptions */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for Rollback. */
+class ResponseHeader {
+
+  /** The kind, fixed to "datastore#responseHeader". */
+  core.String kind;
+
+  /** Create new ResponseHeader from JSON data */
+  ResponseHeader.fromJson(core.Map json) {
+    if (json.containsKey("kind")) {
+      kind = json["kind"];
+    }
+  }
+
+  /** Create JSON Object for ResponseHeader */
+  core.Map toJson() {
+    var output = new core.Map();
+
+    if (kind != null) {
+      output["kind"] = kind;
+    }
+
+    return output;
+  }
+
+  /** Return String representation of ResponseHeader */
+  core.String toString() => JSON.encode(this.toJson());
+
+}
+
 class RollbackRequest {
 
   /** The transaction identifier, returned by a call to beginTransaction. */
@@ -1213,20 +1294,18 @@ class RollbackRequest {
   }
 
   /** Return String representation of RollbackRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for Rollback. */
 class RollbackResponse {
 
-  /** The kind, fixed to "datastore#rollbackResponse". */
-  core.String kind;
+  ResponseHeader header;
 
   /** Create new RollbackResponse from JSON data */
   RollbackResponse.fromJson(core.Map json) {
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
   }
 
@@ -1234,25 +1313,27 @@ class RollbackResponse {
   core.Map toJson() {
     var output = new core.Map();
 
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
 
     return output;
   }
 
   /** Return String representation of RollbackResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The request for RunQuery. */
 class RunQueryRequest {
+
+  /** The GQL query to run. Either this field or field query must be set, but not both. */
+  GqlQuery gqlQuery;
 
   /** Entities are partitioned into subsets, identified by a dataset (usually implicitly specified by the project) and namespace ID. Queries are scoped to a single partition. */
   PartitionId partitionId;
 
-  /** The query to run. */
+  /** The query to run. Either this field or field gql_query must be set, but not both. */
   Query query;
 
   /** The options for this query. */
@@ -1260,6 +1341,9 @@ class RunQueryRequest {
 
   /** Create new RunQueryRequest from JSON data */
   RunQueryRequest.fromJson(core.Map json) {
+    if (json.containsKey("gqlQuery")) {
+      gqlQuery = new GqlQuery.fromJson(json["gqlQuery"]);
+    }
     if (json.containsKey("partitionId")) {
       partitionId = new PartitionId.fromJson(json["partitionId"]);
     }
@@ -1275,6 +1359,9 @@ class RunQueryRequest {
   core.Map toJson() {
     var output = new core.Map();
 
+    if (gqlQuery != null) {
+      output["gqlQuery"] = gqlQuery.toJson();
+    }
     if (partitionId != null) {
       output["partitionId"] = partitionId.toJson();
     }
@@ -1289,26 +1376,24 @@ class RunQueryRequest {
   }
 
   /** Return String representation of RunQueryRequest */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** The response for RunQuery. */
 class RunQueryResponse {
 
   /** A batch of query results (always present). */
   QueryResultBatch batch;
 
-  /** The kind, fixed to "datastore#runQueryResponse". */
-  core.String kind;
+  ResponseHeader header;
 
   /** Create new RunQueryResponse from JSON data */
   RunQueryResponse.fromJson(core.Map json) {
     if (json.containsKey("batch")) {
       batch = new QueryResultBatch.fromJson(json["batch"]);
     }
-    if (json.containsKey("kind")) {
-      kind = json["kind"];
+    if (json.containsKey("header")) {
+      header = new ResponseHeader.fromJson(json["header"]);
     }
   }
 
@@ -1319,21 +1404,18 @@ class RunQueryResponse {
     if (batch != null) {
       output["batch"] = batch.toJson();
     }
-    if (kind != null) {
-      output["kind"] = kind;
+    if (header != null) {
+      output["header"] = header.toJson();
     }
 
     return output;
   }
 
   /** Return String representation of RunQueryResponse */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
-/** A message that can hold any of the supported value types and associated metadata.
-
-At most one of the Value fields may be set. If none are set the value is "null". */
 class Value {
 
   /** A blob key value. */
@@ -1356,7 +1438,7 @@ class Value {
 
   /** If the value should be indexed.
 
-The indexed property may be set to null. When indexed is true, stringValue is limited to 500 characters and the blob value is limited to 500 bytes. Input values by default have indexed set to true; however, you can explicitly set indexed to true if you want. (An output value never has indexed explicitly set to true.) If a value is itself an entity, it cannot have indexed set to true. */
+The indexed property may be set for a null value. When indexed is true, stringValue is limited to 500 characters and the blob value is limited to 500 bytes. Input values by default have indexed set to true; however, you can explicitly set indexed to true if you want. (An output value never has indexed explicitly set to true.) If a value is itself an entity, it cannot have indexed set to true. */
   core.bool indexed;
 
   /** An integer value. */
@@ -1450,7 +1532,7 @@ The indexed property may be set to null. When indexed is true, stringValue is li
   }
 
   /** Return String representation of Value */
-  core.String toString() => JSON.stringify(this.toJson());
+  core.String toString() => JSON.encode(this.toJson());
 
 }
 
